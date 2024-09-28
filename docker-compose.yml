@@ -1,9 +1,11 @@
+version: '3.7'
+
 services:
   web:
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: ${ODOO_CONTAINER_NAME}
-    image: odoo:${ODOO_VERSION}
-    depends_on:
-      - db
     ports:
       - "${ODOO_PORT}:8069"
       - "${DEBUGPY_PORT}:8888"
@@ -12,7 +14,6 @@ services:
       - odoo-web-data:/var/lib/odoo
       - odoo_server:/usr/lib/python3/dist-packages/odoo
       - addons_data:/mnt/extra-addons
-    entrypoint: ${ENTRYPOINT}
     env_file:
       - stack.env
 
