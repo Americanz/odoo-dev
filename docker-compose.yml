@@ -11,8 +11,8 @@ services:
     volumes:
       - ./conf:/etc/odoo
       - odoo-web-data:/var/lib/odoo
-      - ${ODOO_SERVER}:/var/lib/odoo/odoo
-      - ${CUSTOM_ADDONS}:/var/lib/odoo/custom_addons
+      - odoo_server:/var/lib/odoo/odoo
+      - addons_data:/var/lib/odoo/custom_addons
     entrypoint: ${ENTRYPOINT}
   db:
     container_name: ${PG_CONTAINER_NAME}
@@ -29,3 +29,5 @@ services:
 volumes:
   odoo-web-data:
   pgdb-data:
+  odoo_server:
+  addons_data:
