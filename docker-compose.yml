@@ -1,19 +1,21 @@
-version: '3.8'
 services:
   web:
     container_name: ${ODOO_CONTAINER_NAME}
-    image: odoodev:${ODOO_VERSION}
+    image: odoo:${ODOO_VERSION}
     depends_on:
       - db
     ports:
-      - "${ODOO_PORT}:${ODOO_PORT}"
-      - "${DEBUGPY_PORT}:${DEBUGPY_PORT}"
+      - "${ODOO_PORT}:8069"
+      - "${DEBUGPY_PORT}:8888"
     volumes:
       - ./conf:/etc/odoo
       - odoo-web-data:/var/lib/odoo
-      - odoo_server:/var/lib/odoo/odoo
-      - addons_data:/var/lib/odoo/custom_addons
+      - odoo_server:/usr/lib/python3/dist-packages/odoo
+      - addons_data:/mnt/extra-addons
     entrypoint: ${ENTRYPOINT}
+    env_file:
+      - stack.env
+
   db:
     container_name: ${PG_CONTAINER_NAME}
     image: postgres:${PG_VERSION}
@@ -26,6 +28,9 @@ services:
       - ${PG_PORT}:5432
     volumes:
       - pgdb-data:/var/lib/postgresql/data/pgdata
+    env_file:
+      - stack.env
+
 volumes:
   odoo-web-data:
   pgdb-data:
